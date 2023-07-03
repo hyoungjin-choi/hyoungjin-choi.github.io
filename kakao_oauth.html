@@ -15,6 +15,7 @@
     </head>
     <body>
         <p id="token-result"></p>
+        <p id="status-result"></p>
     </body>
 </html>
 
@@ -49,13 +50,13 @@
             const token = data.access_token;
             if(token) {
                 document.getElementById('token-result').innerText
-                            = Object.entries(data).map(([key, value]) => `${key}: ${value}<br>`).join();
+                            = Object.entries(data).map(([key, value]) => `<p>${key}: ${value}</p>`).join();
 
                 Kakao.Auth.setAccessToken(token);
                 Kakao.Auth.getStatusInfo()
                 .then(function(res) {
                     if (res.status === 'connected') {
-                    document.getElementById('token-result').innerText
+                    document.getElementById('status-result').innerText
                         = 'login success, token: ' + Kakao.Auth.getAccessToken();
                     }
                 })
