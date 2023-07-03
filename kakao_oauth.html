@@ -14,6 +14,7 @@
 
     </head>
     <body>
+        <a id="kakao-logout-btn" href="javascript:logout()">로그아웃</a>
         <p id="token-result"></p>
         <p id="status-result"></p>
     </body>
@@ -42,6 +43,17 @@
         console.log(data, status);
         return data;
     }
+
+    function logout() {
+        Kakao.Auth.logout()
+        .then(function(response) {
+            console.log(Kakao.Auth.getAccessToken()); // null
+        })
+        .catch(function(error) {
+            console.log('Not logged in.');
+        });
+    }
+
     ((async() =>{
         const data = await getAccessToken();
         console.log(data);
