@@ -50,7 +50,7 @@
             const token = data.access_token;
             if(token) {
                 document.getElementById('token-result').innerHTML
-                            = Object.entries(data).map(([key, value]) => `<p>${key}: ${value}</p>`).join();
+                            = Object.entries(data).map(([key, value]) => `<p>${key}: ${value}</p>`).join('<br>');
 
                 Kakao.Auth.setAccessToken(token);
                 Kakao.Auth.getStatusInfo()
