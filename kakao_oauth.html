@@ -13,9 +13,8 @@
     </script>
 
     </head>
-    <body>>
+    <body>
         <p id="token-result"></p>
-        <p id="status-result"></p>
     </body>
 </html>
 
@@ -30,7 +29,7 @@
             method: 'post',
             url: 'https://kauth.kakao.com/oauth/token',
             headers: {
-                'Content-type': 'application/x-www-form-urlencoded'
+                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
             },
             data: {
                 grant_type: "authorization_code",
@@ -42,34 +41,35 @@
         console.log(data, status);
         return data;
     }
+    ((async() =>{
+        const data = await getAccessToken();
+        console.log(data);
 
-    const data = getAccessToken();
-    console.log(data);
+        function displayToken(data) {
+            const token = data.access_token;
+            if(token) {
+                document.getElementById('token-result').innerText
+                            = Object.entries(json).map(([key, value]) => `${key}: ${value}<br>`).join();
 
-    document.getElementById('token-result').innerText
-                = Object.entries(data).map(([key, value]) => `${key}: ${value}<br>`).join();
-
-    function displayToken(token) {
-  
-      if(token) {
-        Kakao.Auth.setAccessToken(token);
-        Kakao.Auth.getStatusInfo()
-          .then(function(res) {
-            if (res.status === 'connected') {
-              document.getElementById('status-result').innerText
-                = 'login success, token: ' + Kakao.Auth.getAccessToken();
+                Kakao.Auth.setAccessToken(token);
+                Kakao.Auth.getStatusInfo()
+                .then(function(res) {
+                    if (res.status === 'connected') {
+                    document.getElementById('token-result').innerText
+                        = 'login success, token: ' + Kakao.Auth.getAccessToken();
+                    }
+                })
+                .catch(function(err) {
+                    Kakao.Auth.setAccessToken(null);
+                });
             }
-          })
-          .catch(function(err) {
-            Kakao.Auth.setAccessToken(null);
-          });
-      }
-    }
-  
-    function getCookie(name) {
-      var parts = document.cookie.split(name + '=');
-      if (parts.length === 2) { return parts[1].split(';')[0]; }
-    }
-    displayToken(data.access_token);
+        }
+    
+        function getCookie(name) {
+        var parts = document.cookie.split(name + '=');
+        if (parts.length === 2) { return parts[1].split(';')[0]; }
+        }
+        displayToken(data);
+    }))();
   </script>
 
