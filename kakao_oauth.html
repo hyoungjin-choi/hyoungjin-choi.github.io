@@ -49,14 +49,14 @@
         function displayToken(data) {
             const token = data.access_token;
             if(token) {
-                document.getElementById('token-result').innerText
+                document.getElementById('token-result').innerHTML
                             = Object.entries(data).map(([key, value]) => `<p>${key}: ${value}</p>`).join();
 
                 Kakao.Auth.setAccessToken(token);
                 Kakao.Auth.getStatusInfo()
                 .then(function(res) {
                     if (res.status === 'connected') {
-                    document.getElementById('status-result').innerText
+                    document.getElementById('status-result').innerHTML
                         = 'login success, token: ' + Kakao.Auth.getAccessToken();
                     }
                 })
