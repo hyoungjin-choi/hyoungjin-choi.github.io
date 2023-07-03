@@ -48,6 +48,7 @@
         Kakao.Auth.logout()
         .then(function(response) {
             console.log(Kakao.Auth.getAccessToken()); // null
+            location.href = '/';
         })
         .catch(function(error) {
             console.log('Not logged in.');
