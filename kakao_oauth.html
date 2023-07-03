@@ -13,8 +13,9 @@
     </script>
 
     </head>
-    <body>
+    <body>>
         <p id="token-result"></p>
+        <p id="status-result"></p>
     </body>
 </html>
 
@@ -45,16 +46,17 @@
     const data = getAccessToken();
     console.log(data);
 
+    document.getElementById('token-result').innerText
+                = Object.entries(object1).map(([key, value]) => `${key}: ${value}<br>`).join();
 
-    function displayToken() {
-      var token = getCookie('authorize-access-token');
+    function displayToken(token) {
   
       if(token) {
         Kakao.Auth.setAccessToken(token);
         Kakao.Auth.getStatusInfo()
           .then(function(res) {
             if (res.status === 'connected') {
-              document.getElementById('token-result').innerText
+              document.getElementById('status-result').innerText
                 = 'login success, token: ' + Kakao.Auth.getAccessToken();
             }
           })
@@ -68,6 +70,6 @@
       var parts = document.cookie.split(name + '=');
       if (parts.length === 2) { return parts[1].split(';')[0]; }
     }
-    displayToken();
+    displayToken(data.access_token);
   </script>
 
