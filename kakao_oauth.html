@@ -24,22 +24,28 @@
 
     const authorize_code = location.search.replace('?code=', '');
 
-    authorize_code
-    const { data, status } = await axios({
-        method: 'post',
-        url: 'https://kauth.kakao.com/oauth/token',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-        },
-        data: {
-            grant_type: "authorization_code",
-            client_id: '92dcdbf99967e46645137d9983a77fc9',
-            redirect_uri: "https://hyoungjin-choi.github.io/kakao_oauth",
-            code: authorize_code,
-        }
-    });
-    console.log(data, status);
-    
+    async function getAccessToken() {
+        const { data, status } = await axios({
+            method: 'post',
+            url: 'https://kauth.kakao.com/oauth/token',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            },
+            data: {
+                grant_type: "authorization_code",
+                client_id: '92dcdbf99967e46645137d9983a77fc9',
+                redirect_uri: "https://hyoungjin-choi.github.io/kakao_oauth",
+                code: authorize_code,
+            }
+        });
+        console.log(data, status);
+        return data;
+    }
+
+    const data = getAccessToken();
+    console.log(data);
+
+
     function displayToken() {
       var token = getCookie('authorize-access-token');
   
