@@ -24,7 +24,8 @@
   <script>
     // 아래는 데모를 위한 UI 코드입니다.
 
-    const authorize_code = location.search.replace('?code=', '');
+    const params = new URLSearchParams(document.location.search);
+    const authorize_code = params.get("code"); 
 
     async function getAccessToken() {
         const { data, status } = await axios({
@@ -56,34 +57,41 @@
     }
 
     ((async() =>{
-        const data = await getAccessToken();
-        console.log(data);
+        if (authorize_code) {
+            const data = await getAccessToken();
+            console.log(data);
 
-        function displayToken(data) {
-            const token = data.access_token;
-            if(token) {
-                document.getElementById('token-result').innerHTML
-                            = Object.entries(data).map(([key, value]) => `<p>${key}: ${value}</p>`).join('<br>');
+            function displayToken(data) {
+                const token = data.access_token;
+                if(token) {
+                    document.getElementById('token-result').innerHTML
+                                = Object.entries(data).map(([key, value]) => `<p>${key}: ${value}</p>`).join('<br>');
 
-                Kakao.Auth.setAccessToken(token);
-                Kakao.Auth.getStatusInfo()
-                .then(function(res) {
-                    if (res.status === 'connected') {
-                    document.getElementById('status-result').innerHTML
-                        = 'login success, token: ' + Kakao.Auth.getAccessToken();
-                    }
-                })
-                .catch(function(err) {
-                    Kakao.Auth.setAccessToken(null);
-                });
+                    Kakao.Auth.setAccessToken(token);
+                    Kakao.Auth.getStatusInfo()
+                    .then(function(res) {
+                        if (res.status === 'connected') {
+                        document.getElementById('status-result').innerHTML
+                            = 'login success, token: ' + Kakao.Auth.getAccessToken();
+                        }
+                    })
+                    .catch(function(err) {
+                        Kakao.Auth.setAccessToken(null);
+                    });
+                }
             }
+        
+            function getCookie(name) {
+            var parts = document.cookie.split(name + '=');
+            if (parts.length === 2) { return parts[1].split(';')[0]; }
+            }
+            displayToken(data);
+        } else {
+            Kakao.Auth.authorize({
+                redirectUri: 'https://hyoungjin-choi.github.io/kakao_oauth',
+                serviceTerms: '',
+            });
         }
-    
-        function getCookie(name) {
-        var parts = document.cookie.split(name + '=');
-        if (parts.length === 2) { return parts[1].split(';')[0]; }
-        }
-        displayToken(data);
     }))();
   </script>
 
