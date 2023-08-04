@@ -26,7 +26,7 @@
     function loginWithKakao() {
       Kakao.Auth.authorize({
         redirectUri: 'https://hyoungjin-choi.github.io/kakao_oauth',
-        prompt: 'login',
+        serviceTerms: '',
       });
     }
     document.querySelector('#info').innerText = navigator.userAgent;
