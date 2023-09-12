@@ -15,6 +15,7 @@
     </head>
     <body>
         <a id="kakao-logout-btn" href="javascript:logout()">로그아웃</a>
+        <p id="user-agent"></p>
         <p id="token-result"></p>
         <p id="status-result"></p>
     </body>
@@ -23,7 +24,7 @@
   
   <script>
     // 아래는 데모를 위한 UI 코드입니다.
-
+    document.getElementById('token-result').innerHTML = navigator.userAgent;
     const params = new URLSearchParams(document.location.search);
     const authorize_code = params.get("code"); 
 
